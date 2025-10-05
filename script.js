@@ -2,54 +2,55 @@ let tasks = [];
 
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
-
 function addTask() {
-  const text = taskInput.value.trim();
-
+  let text = taskInput.value.trim();
   if (!text) {
     alert("Task cannot be empty!");
     return;
   }
 
-  const newTask = { title: text, completed: false };
-  tasks.push(newTask);
-
-  displayTasks();
+  tasks.push({ title: text, completed: false });
   taskInput.value = "";
+  renderTasks();
 }
 
-function displayTasks() {
+// Render tasks
+function renderTasks() {
   taskList.innerHTML = "";
-
-  tasks.forEach((task, index) => {
-    const taskItem = document.createElement("div");
+  tasks.forEach((task, i) => {
+    let taskItem = document.createElement("div");
     taskItem.className = "task-item";
 
-    const taskText = document.createElement("span");
-    taskText.textContent = task.title;
+    // Task text
+    let span = document.createElement("span");
+    span.textContent = task.title;
+    if (task.completed) span.style.textDecoration = "line-through";
+    let completeBtn = document.createElement("button");
+    completeBtn.textContent = task.completed ? "Undo" : "Complete";
+    completeBtn.onclick = () => {
+      task.completed = !task.completed;
+      renderTasks();
+    };
+    let editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.onclick = () => {
+      let newText = prompt("Edit task:", task.title);
+      if (newText) {
+        task.title = newText.trim();
+        renderTasks();
+      }
+    };
+    let delBtn = document.createElement("button");
+    delBtn.textContent = "Delete";
+    delBtn.onclick = () => {
+      tasks.splice(i, 1);
+      renderTasks();
+    };
 
-    if (task.completed) {
-      taskText.classList.add("completed");
-    }
-
-    taskText.addEventListener("click", () => toggleComplete(index));
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.className = "delete";
-    deleteBtn.addEventListener("click", () => deleteTask(index));
-
-    taskItem.appendChild(taskText);
-    taskItem.appendChild(deleteBtn);
+    taskItem.appendChild(span);
+    taskItem.appendChild(completeBtn);
+    taskItem.appendChild(editBtn);
+    taskItem.appendChild(delBtn);
     taskList.appendChild(taskItem);
   });
-}
-function toggleComplete(index) {
-  tasks[index].completed = !tasks[index].completed;
-  displayTasks();
-}
-
-function deleteTask(index) {
-  tasks.splice(index, 1);
-  displayTasks();
 }

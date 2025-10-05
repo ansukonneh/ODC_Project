@@ -107,4 +107,28 @@ body {
   .task-item .delete:hover {
     background: #b52a27;
   }
+  .task-item span.completed {
+  text-decoration: line-through;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.task-item button.edit {
+  background: #f0ad4e;
+  color: white;
+}
+
+.task-item button.edit:hover {
+  background: #d9902f;
+}
+
+.task-item button.delete {
+  background: #d9534f;
+  color: white;
+}
+
+.task-item button.delete:hover {
+  background: #b52a27;
+}
+
   
