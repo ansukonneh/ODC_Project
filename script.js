@@ -14,14 +14,12 @@ function addTask() {
   renderTasks();
 }
 
-// Render tasks
 function renderTasks() {
   taskList.innerHTML = "";
   tasks.forEach((task, i) => {
     let taskItem = document.createElement("div");
     taskItem.className = "task-item";
-
-    // Task text
+    
     let span = document.createElement("span");
     span.textContent = task.title;
     if (task.completed) span.style.textDecoration = "line-through";
